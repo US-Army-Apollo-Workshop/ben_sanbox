@@ -39,3 +39,32 @@ type User @key(fields: "id") {
 type ProductVariant @key(fields: "id", resolvable: false) {
   id: ID!
 }
+
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.8", import:
+    [
+      "@key",
+      "@tag",
+      "@shareable"
+      "@authenticated",
+      "@requiresScopes",
+    ]
+  )
+
+type Query {
+  order(id: ID!): Order @authenticated
+}
+
+type Order @key(fields: "id") {
+  id: ID!
+  buyer: User! @requiresScopes(scopes: [["order:buyer"]])
+  items: [ProductVariant!]! @requiresScopes(scopes: [["order:items"]])
+}
+
+type User @key(fields: "id") {
+  id: ID!
+}
+
+type ProductVariant @key(fields: "id", resolvable: false) {
+  id: ID!
+}
