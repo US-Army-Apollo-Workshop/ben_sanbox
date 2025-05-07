@@ -39,3 +39,9 @@ type User @key(fields: "id") {
 type ProductVariant @key(fields: "id", resolvable: false) {
   id: ID!
 }
+type Review @key(fields: "id") {
+  id: Int!
+  body: String!
+  product: Product!
+  user: User!
+}
